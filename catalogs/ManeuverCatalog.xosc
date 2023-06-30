@@ -1,0 +1,225 @@
+<?xml version="1.0"?>
+<OpenSCENARIO>
+  <FileHeader revMajor="0" revMinor="9" date="2020-02-21T12:00:00" description="CARLA:ManeuverCatalog" author="Anja Sheppard"/>
+  <Catalog name="ManeuverCatalog">
+    
+    <Maneuver name="Autopilot">
+      <Event name="StartAutopilot" priority="overwrite">
+        <Action name="StartAutopilot">
+          <PrivateAction>
+            <ActivateControllerAction longitudinal="true"/>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartCondition" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+      <Event name="StopAutopilot" priority="overwrite">
+        <Action name="StopAutopilot">
+          <PrivateAction>
+            <ActivateControllerAction longitudinal="false"/>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartCondition" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="20" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+    </Maneuver>
+
+    <Maneuver name="VehicleKeepsVelocityAndStops">
+       <ParameterDeclarations>
+        <ParameterDeclaration name="distance_to_travel" parameterType="double" value="100.0" />
+        <ParameterDeclaration name="vehicle_speed" parameterType="double" value="10.0" />
+        <ParameterDeclaration name="time_after_stopping" parameterType="double" value="15.0" />
+        <ParameterDeclaration name="start_event_name" parameterType="string" value="StartVehicleKeepsVelocity" />
+        <ParameterDeclaration name="end_event_name" parameterType="string" value="VehicleWaits" />
+      </ParameterDeclarations> 
+      <Event name="$start_event_name" priority="overwrite">
+        <Action name="$start_event_name">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$distance_to_travel" dynamicsDimension="distance"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="$vehicle_speed"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartTime" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0.0" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+      <Event name="$end_event_name" priority="overwrite">
+        <Action name="$end_event_name">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$time_after_stopping" dynamicsDimension="time"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="0.0"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="$end_event_name" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <StoryboardElementStateCondition storyboardElementType="action" storyboardElementRef="$start_event_name" state="endTransition"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+    </Maneuver>
+
+    <Maneuver name="VehicleKeepsVelocity">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="distance_to_travel" parameterType="double" value="100.0" />
+        <ParameterDeclaration name="vehicle_speed" parameterType="double" value="10.0" />
+        <ParameterDeclaration name="time_after_stopping" parameterType="double" value="15.0" />
+        <ParameterDeclaration name="start_event_name" parameterType="string" value="StartVehicleKeepsVelocity" />
+        <ParameterDeclaration name="end_event_name" parameterType="string" value="VehicleWaits" />
+      </ParameterDeclarations> 
+      <Event name="$start_event_name" priority="overwrite">
+        <Action name="$start_event_name">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$distance_to_travel" dynamicsDimension="distance"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="$vehicle_speed"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartTime" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0.0" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+    </Maneuver>
+
+    <Maneuver name="VehicleStartsMovingAndAccelerates">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="start_distance_to_travel" parameterType="double" value="20.0" />
+        <ParameterDeclaration name="distance_to_travel" parameterType="double" value="20.0" />
+        <ParameterDeclaration name="start_vehicle_speed" parameterType="double" value="10.0" />
+        <ParameterDeclaration name="vehicle_speed" parameterType="double" value="10.0" />
+        <ParameterDeclaration name="actor_name" parameterType="string" value="adversary" />
+      </ParameterDeclarations> 
+      <Event name="VehicleStartsMoving" priority="overwrite">
+        <Action name="VehicleStartsMoving">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$start_distance_to_travel" dynamicsDimension="distance"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="$start_vehicle_speed"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartTime" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="0.0" rule="greaterThan"/>
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+      </Event>
+      <Event name="AdversaryAccelerates" priority="overwrite">
+        <Action name="AdversaryAccelerates">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$distance_to_travel" dynamicsDimension="distance"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="$vehicle_speed"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+          <StartTrigger>
+            <ConditionGroup>
+              <Condition name="AfterVehicleStartsMoving" delay="0" conditionEdge="rising">
+                <ByValueCondition>
+                  <StoryboardElementStateCondition storyboardElementType="action" storyboardElementRef="VehicleStartsMoving" state="endTransition"/>
+                </ByValueCondition>
+              </Condition>
+            </ConditionGroup>
+          </StartTrigger>
+        </Event>
+    </Maneuver>
+
+
+    <Maneuver name="VehicleStartsMovingOnHeroProximity">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="distance_to_travel" parameterType="double" value="20.0" />
+        <ParameterDeclaration name="vehicle_speed" parameterType="double" value="10.0" />
+        <ParameterDeclaration name="proximity_distance" parameterType="double" value="40.0" />
+        <ParameterDeclaration name="actor_name" parameterType="string" value="adversary" />
+      </ParameterDeclarations> 
+      <Event name="AdversaryAccelerates" priority="overwrite">
+        <Action name="AdversaryAccelerates">
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsShape="step" value="$distance_to_travel" dynamicsDimension="distance"/>
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="$vehicle_speed"/>
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Action>
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartCondition" delay="0" conditionEdge="rising">
+              <ByEntityCondition>
+                <TriggeringEntities triggeringEntitiesRule="any">
+                  <EntityRef entityRef="hero"/>
+                </TriggeringEntities>
+                <EntityCondition>
+                  <RelativeDistanceCondition entityRef="$actor_name" relativeDistanceType="cartesianDistance" value="$proximity_distance" freespace="false" rule="lessThan"/>
+                </EntityCondition>
+              </ByEntityCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+        </Event>
+    </Maneuver>
+
+  </Catalog>
+</OpenSCENARIO>

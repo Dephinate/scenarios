@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSCENARIO>
+  <FileHeader revMajor="1" revMinor="0" date="2020-03-20T12:00:00"
+    description="CARLA:LeadVehicleDecelerates" author="Maria Elli" />
+  <ParameterDeclarations>
+    <ParameterDeclaration name="weather" parameterType="string" value="raining" />
+    <ParameterDeclaration name="ego_speed" parameterType="double" value="14.0" />
+    <ParameterDeclaration name="ego_distance_to_travel" parameterType="double" value="55" />
+    <ParameterDeclaration name="relative_distance_to_ego_x" parameterType="string" value="200" />
+    <ParameterDeclaration name="other_speed" parameterType="double" value="16.0" />
+    <ParameterDeclaration name="other_distance_to_travel" parameterType="double" value="5.0" />
+  </ParameterDeclarations>
+
+  <CatalogLocations>
+    <VehicleCatalog>
+      <Directory path="catalogs" />
+    </VehicleCatalog>
+    <PedestrianCatalog>
+      <Directory path="catalogs" />
+    </PedestrianCatalog>
+    <MiscObjectCatalog>
+      <Directory path="catalogs" />
+    </MiscObjectCatalog>
+    <EnvironmentCatalog>
+      <Directory path="catalogs" />
+    </EnvironmentCatalog>
+    <ManeuverCatalog>
+      <Directory path="catalogs" />
+    </ManeuverCatalog>
+    <ControllerCatalog>
+      <Directory path="catalogs" />
+    </ControllerCatalog>
+  </CatalogLocations>
+
+  <RoadNetwork>
+    <LogicFile filepath="Town06" />
+    <SceneGraphFile filepath="" />
+  </RoadNetwork>
+
+  <Entities>
+    <!-- Object 1: Hero -->
+    <ScenarioObject name="hero">
+      <CatalogReference catalogName="VehicleCatalog" entryName="vehicle.tesla.model3">
+        <ParameterAssignments>
+          <ParameterAssignment parameterRef="car_color" value="255,0,0" />
+          <ParameterAssignment parameterRef="agent_type" value="ego_vehicle" />
+        </ParameterAssignments>
+      </CatalogReference>
+    </ScenarioObject>
+    <!-- Object 2: Standing Object -->
+    <ScenarioObject name="adversary">
+      <CatalogReference catalogName="VehicleCatalog" entryName="vehicle.tesla.model3">
+        <ParameterAssignments>
+          <ParameterAssignment parameterRef="car_color" value="0,0,0" />
+          <ParameterAssignment parameterRef="agent_type" value="adversary" />
+        </ParameterAssignments>
+      </CatalogReference>
+    </ScenarioObject>
+  </Entities>
+
+  <Storyboard>
+    <Init>
+      <Actions>
+        <GlobalAction>
+          <EnvironmentAction>
+            <CatalogReference catalogName="EnvironmentCatalog" entryName="$weather" />
+          </EnvironmentAction>
+        </GlobalAction>
+        <!-- HERO -->
+        <Private entityRef="hero">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <WorldPosition x="615" y="45" z="0.5" />
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <ControllerAction>
+              <AssignControllerAction>
+                <Controller name="RssAgent">
+                  <Properties>
+                    <Property name="module" value="rss_roaming_agent_raining" />
+                    <Property name="attach_camera" value="true" />
+                  </Properties>
+                </Controller>
+              </AssignControllerAction>
+              <OverrideControllerValueAction>
+                <Throttle value="0" active="false" />
+                <Brake value="0" active="false" />
+                <Clutch value="0" active="false" />
+                <ParkingBrake value="0" active="false" />
+                <SteeringWheel value="0" active="false" />
+                <Gear number="0" active="false" />
+              </OverrideControllerValueAction>
+            </ControllerAction>
+          </PrivateAction>
+        </Private>
+        <!-- ADVERSARY -->
+        <Private entityRef="adversary">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <RelativeWorldPosition entityRef="hero" dx="20" dy="0" dz="0" />
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+          <PrivateAction>
+            <LongitudinalAction>
+              <SpeedAction>
+                <SpeedActionDynamics dynamicsDimension="time" dynamicsShape="step" value="0.0" />
+                <SpeedActionTarget>
+                  <AbsoluteTargetSpeed value="20.0" />
+                </SpeedActionTarget>
+              </SpeedAction>
+            </LongitudinalAction>
+          </PrivateAction>
+        </Private>
+
+
+      </Actions>
+    </Init>
+
+    <Story name="MyStory">
+      <Act name="Behavior">
+
+        <!-- Leading Vehicle Maneuver -->
+        <ManeuverGroup name="ManeuverSequence" maximumExecutionCount="1">
+          <Actors selectTriggeringEntities="false">
+            <EntityRef entityRef="adversary" />
+          </Actors>
+          <Maneuver name="LeadingVehicleDeaccelerates">
+            <!-- <Event name="vehicleStartAccelerating" priority="overwrite">
+              <Action name="vehicleStartAccelerating">
+                <PrivateAction>
+                  <LongitudinalAction>
+                    <SpeedAction>
+                      <SpeedActionDynamics dynamicsShape="step" value="$other_distance_to_travel"
+                        dynamicsDimension="distance" />
+                      <SpeedActionTarget>
+                        <AbsoluteTargetSpeed value="$other_speed" />
+                      </SpeedActionTarget>
+                    </SpeedAction>
+                  </LongitudinalAction>
+                </PrivateAction>
+              </Action>
+              <StartTrigger>
+                <ConditionGroup>
+                  <Condition name="StartTime" delay="0" conditionEdge="rising">
+                    <ByValueCondition>
+                      <SimulationTimeCondition value="0.0" rule="greaterThan" />
+                    </ByValueCondition>
+                  </Condition>
+                </ConditionGroup>
+              </StartTrigger>
+            </Event> -->
+            <Event name="VehicleStops" priority="overwrite">
+              <Action name="VehicleStops">
+                <PrivateAction>
+                  <LongitudinalAction>
+                    <SpeedAction>
+                      <SpeedActionDynamics dynamicsShape="linear" value="-2.0"
+                        dynamicsDimension="rate" />
+                      <SpeedActionTarget>
+                        <AbsoluteTargetSpeed value="0.0" />
+                      </SpeedActionTarget>
+                    </SpeedAction>
+                  </LongitudinalAction>
+                </PrivateAction>
+              </Action>
+              <StartTrigger>
+                <ConditionGroup>
+                  <Condition name="VehicleStops" delay="0" conditionEdge="rising">
+                    <ByEntityCondition>
+                      <TriggeringEntities triggeringEntitiesRule="any">
+                        <EntityRef entityRef="hero" />
+                      </TriggeringEntities>
+                      <EntityCondition>
+                        <RelativeDistanceCondition freespace="false" rule="greaterThan"
+                          entityRef="adversary" value="25.0" relativeDistanceType="longitudinal" />
+                      </EntityCondition>
+                    </ByEntityCondition>
+                  </Condition>
+                </ConditionGroup>
+              </StartTrigger>
+            </Event>
+          </Maneuver>
+        </ManeuverGroup>
+
+        <!-- Ego Vehicle Maneuver -->
+        <ManeuverGroup name="ManeuverSequence" maximumExecutionCount="1">
+          <Actors selectTriggeringEntities="false">
+            <EntityRef entityRef="hero" />
+          </Actors>
+          <CatalogReference catalogName="ManeuverCatalog" entryName="VehicleKeepsVelocityAndStops">
+            <ParameterAssignments>
+              <ParameterAssignment parameterRef="vehicle_speed" value="$ego_speed" />
+              <ParameterAssignment parameterRef="distance_to_travel" value="$ego_distance_to_travel" />
+            </ParameterAssignments>
+          </CatalogReference>
+        </ManeuverGroup>
+
+        <StartTrigger>
+          <ConditionGroup>
+            <Condition name="StartTime" delay="0" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="1" rule="greaterThan" />
+              </ByValueCondition>
+            </Condition>
+          </ConditionGroup>
+        </StartTrigger>
+        <StopTrigger>
+          <ConditionGroup>
+            <Condition name="EndTime" delay="5" conditionEdge="rising">
+              <ByValueCondition>
+                <SimulationTimeCondition value="60" rule="greaterThan" />
+              </ByValueCondition>
+            </Condition>
+            <Condition name="EndTime" delay="0" conditionEdge="rising">
+              <ByEntityCondition>
+                <TriggeringEntities triggeringEntitiesRule="any">
+                  <EntityRef entityRef="hero" />
+                </TriggeringEntities>
+                <EntityCondition>
+                  <StandStillCondition duration="2" />
+                </EntityCondition>
+              </ByEntityCondition>
+            </Condition>
+          </ConditionGroup>
+        </StopTrigger>
+      </Act>
+    </Story>
+    <StopTrigger>
+      <ConditionGroup>
+        <Condition name="criteria_CollisionTest" delay="0" conditionEdge="rising">
+          <ByValueCondition>
+            <ParameterCondition parameterRef="" value="" rule="lessThan" />
+          </ByValueCondition>
+        </Condition>
+      </ConditionGroup>
+    </StopTrigger>
+  </Storyboard>
+</OpenSCENARIO>

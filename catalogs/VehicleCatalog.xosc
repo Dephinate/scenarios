@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<OpenSCENARIO>
+  <FileHeader revMajor="0" revMinor="9" date="2020-02-17T12:00:00" description="CARLA:VehicleCatalog" author="Anja Sheppard"/>
+  <Catalog name="VehicleCatalog">
+
+    <Vehicle name="vehicle.volkswagen.t2" vehicleCategory="car">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="car_color" parameterType="string" value="0,0,255" />
+        <ParameterDeclaration name="agent_type" parameterType="string" value="adversary" />
+      </ParameterDeclarations>
+      <Performance maxSpeed="69.444" maxAcceleration="200" maxDeceleration="10.0"/>
+      <BoundingBox>
+        <Center x="1.5" y="0.0" z="0.9"/>
+        <Dimensions width="2.1" length="4.5" height="1.8"/>
+      </BoundingBox>
+      <Axles>
+        <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+        <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+      </Axles>
+      <Properties>
+          <Property name="color" value="$car_color"/>
+          <Property name="type" value="$agent_type"/>
+      </Properties>
+    </Vehicle>
+
+    <Vehicle name="vehicle.tesla.model3" vehicleCategory="car">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="car_color" parameterType="string" value="255,0,0" />
+        <ParameterDeclaration name="agent_type" parameterType="string" value="ego_vehicle" />
+      </ParameterDeclarations>
+      <Performance maxSpeed="69.444" maxAcceleration="200" maxDeceleration="10.0"/>
+      <BoundingBox>
+        <Center x="1.5" y="0.0" z="0.9"/>
+        <Dimensions width="2.1" length="4.5" height="1.8"/>
+      </BoundingBox>
+      <Axles>
+        <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+        <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+      </Axles>
+      <Properties>
+          <Property name="color" value="$car_color"/>
+          <Property name="type" value="$agent_type"/>
+      </Properties>
+    </Vehicle>
+
+    <Vehicle name="vehicle.lincoln.mkz2017" vehicleCategory="car">  
+      <ParameterDeclarations>
+        <ParameterDeclaration name="car_color" parameterType="string" value="0,255,0" />
+        <ParameterDeclaration name="agent_type" parameterType="string" value="ego_vehicle" />
+      </ParameterDeclarations>
+      <Performance maxSpeed="69.444" maxAcceleration="200" maxDeceleration="10.0"/>
+      <BoundingBox>
+          <Center x="1.5" y="0.0" z="0.9"/>
+          <Dimensions width="2.1" length="4.5" height="1.8"/>
+      </BoundingBox>
+      <Axles>
+          <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+          <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+      </Axles>
+      <Properties>
+          <Property name="color" value="$car_color"/>
+          <Property name="type" value="$agent_type"/>
+      </Properties>
+    </Vehicle>
+
+    <Vehicle name="vehicle.audi.a2" vehicleCategory="car">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="car_color" parameterType="string" value="255,0,0" />
+        <ParameterDeclaration name="agent_type" parameterType="string" value="ego_vehicle" />
+      </ParameterDeclarations>
+      <Performance maxSpeed="69.444" maxAcceleration="200" maxDeceleration="10.0"/>
+      <BoundingBox>
+        <Center x="1.5" y="0.0" z="0.9"/>
+        <Dimensions width="2.1" length="4.5" height="1.8"/>
+      </BoundingBox>
+      <Axles>
+        <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+        <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+      </Axles>
+      <Properties>
+          <Property name="color" value="$car_color"/>
+          <Property name="type" value="$agent_type"/>
+      </Properties>
+    </Vehicle>
+
+    <Vehicle name="vehicle.toyota.prius" vehicleCategory="car">
+      <ParameterDeclarations>
+        <ParameterDeclaration name="car_color" parameterType="string" value="255,0,0" />
+        <ParameterDeclaration name="agent_type" parameterType="string" value="ego_vehicle" />
+      </ParameterDeclarations>
+      <Performance maxSpeed="69.444" maxAcceleration="200" maxDeceleration="10.0"/>
+      <BoundingBox>
+        <Center x="1.5" y="0.0" z="0.9"/>
+        <Dimensions width="2.1" length="4.5" height="1.8"/>
+      </BoundingBox>
+      <Axles>
+        <FrontAxle maxSteering="0.5" wheelDiameter="0.6" trackWidth="1.8" positionX="3.1" positionZ="0.3"/>
+        <RearAxle maxSteering="0.0" wheelDiameter="0.6" trackWidth="1.8" positionX="0.0" positionZ="0.3"/>
+      </Axles>
+      <Properties>
+          <Property name="color" value="$car_color"/>
+          <Property name="type" value="$agent_type"/>
+      </Properties>
+    </Vehicle>
+
+    <!-- vehicle.audi.a2
+    vehicle.carlamotors.carlacola
+    vehicle.citroen.c3
+    vehicle.nissan.patrol
+    vehicle.toyota.prius -->
+
+
+
+  </Catalog>
+</OpenSCENARIO>
