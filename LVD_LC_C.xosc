@@ -4,7 +4,7 @@
     description="CARLA:LeadVehicleDecelerates" author="Maria Elli" />
   <ParameterDeclarations>
     <ParameterDeclaration name="weather" parameterType="string" value="raining" />
-    <ParameterDeclaration name="ego_speed" parameterType="double" value="14.0" />
+    <ParameterDeclaration name="ego_speed" parameterType="double" value="25.0" />
     <ParameterDeclaration name="ego_distance_to_travel" parameterType="double" value="55" />
     <ParameterDeclaration name="relative_distance_to_ego_x" parameterType="string" value="200" />
     <ParameterDeclaration name="other_speed" parameterType="double" value="16.0" />
@@ -81,7 +81,7 @@
                 <Controller name="RssAgent">
                   <Properties>
                     <Property name="module" value="rss_roaming_agent_raining" />
-                    <Property name="attach_camera" value="true" />
+                    <Property name="attach_camera" value="false" />
                   </Properties>
                 </Controller>
               </AssignControllerAction>
@@ -105,87 +105,13 @@
               </Position>
             </TeleportAction>
           </PrivateAction>
-          <PrivateAction>
-            <LongitudinalAction>
-              <SpeedAction>
-                <SpeedActionDynamics dynamicsDimension="time" dynamicsShape="step" value="0.0" />
-                <SpeedActionTarget>
-                  <AbsoluteTargetSpeed value="20.0" />
-                </SpeedActionTarget>
-              </SpeedAction>
-            </LongitudinalAction>
-          </PrivateAction>
         </Private>
-
 
       </Actions>
     </Init>
 
     <Story name="MyStory">
       <Act name="Behavior">
-
-        <!-- Leading Vehicle Maneuver -->
-        <ManeuverGroup name="ManeuverSequence" maximumExecutionCount="1">
-          <Actors selectTriggeringEntities="false">
-            <EntityRef entityRef="adversary" />
-          </Actors>
-          <Maneuver name="LeadingVehicleDeaccelerates">
-            <!-- <Event name="vehicleStartAccelerating" priority="overwrite">
-              <Action name="vehicleStartAccelerating">
-                <PrivateAction>
-                  <LongitudinalAction>
-                    <SpeedAction>
-                      <SpeedActionDynamics dynamicsShape="step" value="$other_distance_to_travel"
-                        dynamicsDimension="distance" />
-                      <SpeedActionTarget>
-                        <AbsoluteTargetSpeed value="$other_speed" />
-                      </SpeedActionTarget>
-                    </SpeedAction>
-                  </LongitudinalAction>
-                </PrivateAction>
-              </Action>
-              <StartTrigger>
-                <ConditionGroup>
-                  <Condition name="StartTime" delay="0" conditionEdge="rising">
-                    <ByValueCondition>
-                      <SimulationTimeCondition value="0.0" rule="greaterThan" />
-                    </ByValueCondition>
-                  </Condition>
-                </ConditionGroup>
-              </StartTrigger>
-            </Event> -->
-            <Event name="VehicleStops" priority="overwrite">
-              <Action name="VehicleStops">
-                <PrivateAction>
-                  <LongitudinalAction>
-                    <SpeedAction>
-                      <SpeedActionDynamics dynamicsShape="linear" value="-2.0"
-                        dynamicsDimension="rate" />
-                      <SpeedActionTarget>
-                        <AbsoluteTargetSpeed value="0.0" />
-                      </SpeedActionTarget>
-                    </SpeedAction>
-                  </LongitudinalAction>
-                </PrivateAction>
-              </Action>
-              <StartTrigger>
-                <ConditionGroup>
-                  <Condition name="VehicleStops" delay="0" conditionEdge="rising">
-                    <ByEntityCondition>
-                      <TriggeringEntities triggeringEntitiesRule="any">
-                        <EntityRef entityRef="hero" />
-                      </TriggeringEntities>
-                      <EntityCondition>
-                        <RelativeDistanceCondition freespace="false" rule="greaterThan"
-                          entityRef="adversary" value="25.0" relativeDistanceType="longitudinal" />
-                      </EntityCondition>
-                    </ByEntityCondition>
-                  </Condition>
-                </ConditionGroup>
-              </StartTrigger>
-            </Event>
-          </Maneuver>
-        </ManeuverGroup>
 
         <!-- Ego Vehicle Maneuver -->
         <ManeuverGroup name="ManeuverSequence" maximumExecutionCount="1">
