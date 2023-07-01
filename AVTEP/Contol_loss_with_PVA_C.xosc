@@ -68,7 +68,7 @@
               <AssignControllerAction>
                 <Controller name="RssAgent">
                   <Properties>
-                    <Property name="module" value="rss_roaming_agent_raining" />
+                    <Property name="module" value="Contol_loss_with_pva_c" />
                     <Property name="attach_camera" value="true" />
                   </Properties>
                 </Controller>
