@@ -36,6 +36,7 @@
   </RoadNetwork>
 
   <Entities>
+    <!-- Hero Vehicle -->
     <ScenarioObject name="hero">
       <CatalogReference catalogName="VehicleCatalog" entryName="vehicle.tesla.model3">
         <ParameterAssignments>
@@ -44,6 +45,11 @@
         </ParameterAssignments>
       </CatalogReference>
     </ScenarioObject>
+    <!-- Pedestrian -->
+    <!-- <ScenarioObject name="pedestrian">
+      <CatalogReference catalogName="PedestrianCatalog" entryName="Pedestrian1">
+      </CatalogReference>
+    </ScenarioObject> -->
   </Entities>
 
   <Storyboard>
@@ -54,7 +60,6 @@
             <CatalogReference catalogName="EnvironmentCatalog" entryName="$weather" />
           </EnvironmentAction>
         </GlobalAction>
-
         <Private entityRef="hero">
           <PrivateAction>
             <TeleportAction>
@@ -63,35 +68,21 @@
               </Position>
             </TeleportAction>
           </PrivateAction>
-          <PrivateAction>
-            <ControllerAction>
-              <AssignControllerAction>
-                <Controller name="RssAgent">
-                  <Properties>
-                    <Property name="module" value="rss_roaming_agent_raining" />
-                    <Property name="attach_camera" value="true" />
-                  </Properties>
-                </Controller>
-              </AssignControllerAction>
-              <OverrideControllerValueAction>
-                <Throttle value="0" active="false" />
-                <Brake value="0" active="false" />
-                <Clutch value="0" active="false" />
-                <ParkingBrake value="0" active="false" />
-                <SteeringWheel value="0" active="false" />
-                <Gear number="0" active="false" />
-              </OverrideControllerValueAction>
-            </ControllerAction>
-          </PrivateAction>
         </Private>
-
-
+        <!-- <Private entityRef="pedestrian">
+          <PrivateAction>
+            <TeleportAction>
+              <Position>
+                <WorldPosition x="610" y="55" z="0.5" />
+              </Position>
+            </TeleportAction>
+          </PrivateAction>
+        </Private> -->
       </Actions>
     </Init>
 
     <Story name="MyStory">
       <Act name="Behavior">
-
 
         <!-- Ego Vehicle Maneuver -->
         <ManeuverGroup name="ManeuverSequence" maximumExecutionCount="1">
